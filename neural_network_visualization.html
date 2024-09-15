@@ -3,253 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Neural Network Visualization</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<title>Neural Network Visualizer</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 <style>
-.neuron-button { border-radius: 50%; width: 50px; height: 50px; margin: 10px; }
-.layer-container { text-align: center; margin-top: 20px; }
+.layer { display: inline-block; margin: 20px; }
+.neuron { background-color: #6c757d; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; margin: 10px auto; color: white; }
+.input-neuron { background-color: lightgreen; }
+.hidden-neuron { background-color: #007bff; }
+.output-neuron { background-color: lightcoral; }
+svg { position: absolute; }
 </style>
 </head>
 <body>
-<div class="container">
-<h1 class="text-center">Neural Network Visualization</h1>
-<div class="layer-container">
-<h2>Layer 1</h2>
-<button type="button" class="btn btn-primary neuron-button" data-toggle="modal" data-target="#neuron-0-0">N1</button>
-<div class="modal fade" id="neuron-0-0" tabindex="-1" role="dialog" aria-labelledby="neuron-0-0Label" aria-hidden="true">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="neuron-0-0Label">Neuron 1 in Layer 1</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
+<div class="container text-center">
+<h2>Neural Network Architecture</h2>
+<div style="position:relative;">
+<div class="layer">
+<h4>Input layer</h4>
+<div class="neuron input-neuron">1</div>
+<div class="neuron input-neuron">2</div>
+<div class="neuron input-neuron">3</div>
+<div class="neuron input-neuron">4</div>
+<div class="neuron input-neuron">5</div>
 </div>
-<div class="modal-body">
-<p><strong>Weights:</strong></p>
-<ul>
-<li>Weight[0]: NaN</li>
-<li>Weight[1]: NaN</li>
-</ul>
-<p><strong>Bias:</strong> NaN</p>
+<div class="layer">
+<h4>Hidden layer 1</h4>
+<div class="neuron hidden-neuron">1</div>
+<div class="neuron hidden-neuron">2</div>
+<div class="neuron hidden-neuron">3</div>
+<div class="neuron hidden-neuron">4</div>
+<div class="neuron hidden-neuron">5</div>
 </div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-</div>
-</div>
+<div class="layer">
+<h4>Output layer</h4>
+<div class="neuron output-neuron">1</div>
+<div class="neuron output-neuron">2</div>
+<div class="neuron output-neuron">3</div>
 </div>
 </div>
-<button type="button" class="btn btn-primary neuron-button" data-toggle="modal" data-target="#neuron-0-1">N2</button>
-<div class="modal fade" id="neuron-0-1" tabindex="-1" role="dialog" aria-labelledby="neuron-0-1Label" aria-hidden="true">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="neuron-0-1Label">Neuron 2 in Layer 1</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
+<svg width="1000" height="600">
+<line x1="100" y1="100" x2="300" y2="150" stroke="black" />
+<line x1="100" y1="100" x2="300" y2="250" stroke="black" />
+<line x1="100" y1="100" x2="300" y2="350" stroke="black" />
+<line x1="100" y1="100" x2="300" y2="450" stroke="black" />
+<line x1="100" y1="200" x2="300" y2="150" stroke="black" />
+<line x1="100" y1="200" x2="300" y2="250" stroke="black" />
+<line x1="100" y1="200" x2="300" y2="350" stroke="black" />
+<line x1="100" y1="200" x2="300" y2="450" stroke="black" />
+<line x1="100" y1="300" x2="300" y2="150" stroke="black" />
+<line x1="100" y1="300" x2="300" y2="250" stroke="black" />
+<line x1="100" y1="300" x2="300" y2="350" stroke="black" />
+<line x1="100" y1="300" x2="300" y2="450" stroke="black" />
+<line x1="100" y1="400" x2="300" y2="150" stroke="black" />
+<line x1="100" y1="400" x2="300" y2="250" stroke="black" />
+<line x1="100" y1="400" x2="300" y2="350" stroke="black" />
+<line x1="100" y1="400" x2="300" y2="450" stroke="black" />
+<line x1="300" y1="150" x2="500" y2="250" stroke="black" />
+<line x1="300" y1="250" x2="500" y2="250" stroke="black" />
+<line x1="300" y1="350" x2="500" y2="250" stroke="black" />
+<line x1="300" y1="450" x2="500" y2="250" stroke="black" />
+</svg>
 </div>
-<div class="modal-body">
-<p><strong>Weights:</strong></p>
-<ul>
-<li>Weight[0]: NaN</li>
-<li>Weight[1]: NaN</li>
-</ul>
-<p><strong>Bias:</strong> NaN</p>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-</div>
-</div>
-</div>
-</div>
-<button type="button" class="btn btn-primary neuron-button" data-toggle="modal" data-target="#neuron-0-2">N3</button>
-<div class="modal fade" id="neuron-0-2" tabindex="-1" role="dialog" aria-labelledby="neuron-0-2Label" aria-hidden="true">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="neuron-0-2Label">Neuron 3 in Layer 1</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body">
-<p><strong>Weights:</strong></p>
-<ul>
-<li>Weight[0]: NaN</li>
-<li>Weight[1]: NaN</li>
-</ul>
-<p><strong>Bias:</strong> NaN</p>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-</div>
-</div>
-</div>
-</div>
-<button type="button" class="btn btn-primary neuron-button" data-toggle="modal" data-target="#neuron-0-3">N4</button>
-<div class="modal fade" id="neuron-0-3" tabindex="-1" role="dialog" aria-labelledby="neuron-0-3Label" aria-hidden="true">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="neuron-0-3Label">Neuron 4 in Layer 1</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body">
-<p><strong>Weights:</strong></p>
-<ul>
-<li>Weight[0]: NaN</li>
-<li>Weight[1]: NaN</li>
-</ul>
-<p><strong>Bias:</strong> NaN</p>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="layer-container">
-<h2>Layer 2</h2>
-<button type="button" class="btn btn-primary neuron-button" data-toggle="modal" data-target="#neuron-1-0">N1</button>
-<div class="modal fade" id="neuron-1-0" tabindex="-1" role="dialog" aria-labelledby="neuron-1-0Label" aria-hidden="true">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="neuron-1-0Label">Neuron 1 in Layer 2</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body">
-<p><strong>Weights:</strong></p>
-<ul>
-<li>Weight[0]: NaN</li>
-<li>Weight[1]: NaN</li>
-<li>Weight[2]: NaN</li>
-<li>Weight[3]: NaN</li>
-</ul>
-<p><strong>Bias:</strong> NaN</p>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-</div>
-</div>
-</div>
-</div>
-<button type="button" class="btn btn-primary neuron-button" data-toggle="modal" data-target="#neuron-1-1">N2</button>
-<div class="modal fade" id="neuron-1-1" tabindex="-1" role="dialog" aria-labelledby="neuron-1-1Label" aria-hidden="true">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="neuron-1-1Label">Neuron 2 in Layer 2</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body">
-<p><strong>Weights:</strong></p>
-<ul>
-<li>Weight[0]: NaN</li>
-<li>Weight[1]: NaN</li>
-<li>Weight[2]: NaN</li>
-<li>Weight[3]: NaN</li>
-</ul>
-<p><strong>Bias:</strong> NaN</p>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-</div>
-</div>
-</div>
-</div>
-<button type="button" class="btn btn-primary neuron-button" data-toggle="modal" data-target="#neuron-1-2">N3</button>
-<div class="modal fade" id="neuron-1-2" tabindex="-1" role="dialog" aria-labelledby="neuron-1-2Label" aria-hidden="true">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="neuron-1-2Label">Neuron 3 in Layer 2</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body">
-<p><strong>Weights:</strong></p>
-<ul>
-<li>Weight[0]: NaN</li>
-<li>Weight[1]: NaN</li>
-<li>Weight[2]: NaN</li>
-<li>Weight[3]: NaN</li>
-</ul>
-<p><strong>Bias:</strong> NaN</p>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-</div>
-</div>
-</div>
-</div>
-<button type="button" class="btn btn-primary neuron-button" data-toggle="modal" data-target="#neuron-1-3">N4</button>
-<div class="modal fade" id="neuron-1-3" tabindex="-1" role="dialog" aria-labelledby="neuron-1-3Label" aria-hidden="true">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="neuron-1-3Label">Neuron 4 in Layer 2</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body">
-<p><strong>Weights:</strong></p>
-<ul>
-<li>Weight[0]: NaN</li>
-<li>Weight[1]: NaN</li>
-<li>Weight[2]: NaN</li>
-<li>Weight[3]: NaN</li>
-</ul>
-<p><strong>Bias:</strong> NaN</p>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="layer-container">
-<h2>Layer 3</h2>
-<button type="button" class="btn btn-primary neuron-button" data-toggle="modal" data-target="#neuron-2-0">N1</button>
-<div class="modal fade" id="neuron-2-0" tabindex="-1" role="dialog" aria-labelledby="neuron-2-0Label" aria-hidden="true">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" id="neuron-2-0Label">Neuron 1 in Layer 3</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body">
-<p><strong>Weights:</strong></p>
-<ul>
-<li>Weight[0]: NaN</li>
-<li>Weight[1]: NaN</li>
-<li>Weight[2]: NaN</li>
-<li>Weight[3]: NaN</li>
-</ul>
-<p><strong>Bias:</strong> NaN</p>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

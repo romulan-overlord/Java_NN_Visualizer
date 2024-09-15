@@ -1,154 +1,108 @@
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class NeuralNetworkVisualizer {
-    private NeuralNetwork nn; // The neural network to visualize
 
-    public NeuralNetworkVisualizer(NeuralNetwork nn) {
-        this.nn = nn;
+    private NeuralNetwork network;
+
+    public NeuralNetworkVisualizer(NeuralNetwork network) {
+        this.network = network;
     }
 
-    // Method to generate HTML file for visualizing the neural network
-    public void generateHTML(String fileName) {
-        try (FileWriter writer = new FileWriter(fileName)) {
-            writer.write("<!DOCTYPE html>\n");
-            writer.write("<html lang=\"en\">\n");
-            writer.write("<head>\n");
-            writer.write("<meta charset=\"UTF-8\">\n");
-            writer.write("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n");
-            writer.write("<title>Neural Network Visualization</title>\n");
-            writer.write(
-                    "<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css\">\n");
-            writer.write("<script src=\"https://code.jquery.com/jquery-3.3.1.slim.min.js\"></script>\n");
-            writer.write(
-                    "<script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js\"></script>\n");
-            writer.write("<style>\n");
-            writer.write(".neuron-button { border-radius: 50%; width: 50px; height: 50px; margin: 10px; }\n");
-            writer.write(".layer-container { text-align: center; margin-top: 20px; }\n");
-            writer.write("</style>\n");
-            writer.write("</head>\n");
-            writer.write("<body>\n");
-            writer.write("<div class=\"container\">\n");
-            writer.write("<h1 class=\"text-center\">Neural Network Visualization</h1>\n");
+    // Generate the HTML code to visualize the network architecture
+    public String generateHtml() {
+        StringBuilder html = new StringBuilder();
 
-            // Generate HTML for each layer and its neurons
-            List<Layer> layers = nn.layers;
-            for (int l = 0; l < layers.size(); l++) {
-                writer.write("<div class=\"layer-container\">\n");
-                writer.write("<h2>Layer " + (l + 1) + "</h2>\n");
+        html.append("<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n")
+                .append("<meta charset=\"UTF-8\">\n")
+                .append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n")
+                .append("<title>Neural Network Visualizer</title>\n")
+                .append("<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\">\n")
+                .append("<style>\n")
+                .append(".layer { display: inline-block; margin: 20px; }\n")
+                .append(".neuron { background-color: #6c757d; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; margin: 10px auto; color: white; }\n")
+                .append(".input-neuron { background-color: lightgreen; }\n")
+                .append(".hidden-neuron { background-color: #007bff; }\n")
+                .append(".output-neuron { background-color: lightcoral; }\n")
+                .append("svg { position: absolute; }\n")
+                .append("</style>\n</head>\n<body>\n")
+                .append("<div class=\"container text-center\">\n")
+                .append("<h2>Neural Network Architecture</h2>\n<div style=\"position:relative;\">\n");
 
-                Layer layer = layers.get(l);
-                for (int n = 0; n < layer.outputSize; n++) {
-                    String neuronId = "neuron-" + l + "-" + n;
-                    writer.write(
-                            "<button type=\"button\" class=\"btn btn-primary neuron-button\" data-toggle=\"modal\" data-target=\"#"
-                                    + neuronId + "\">N" + (n + 1) + "</button>\n");
-
-                    // Create modal for the neuron details
-                    writer.write("<div class=\"modal fade\" id=\"" + neuronId
-                            + "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\""
-                            + neuronId + "Label\" aria-hidden=\"true\">\n");
-                    writer.write("<div class=\"modal-dialog\" role=\"document\">\n");
-                    writer.write("<div class=\"modal-content\">\n");
-                    writer.write("<div class=\"modal-header\">\n");
-                    writer.write("<h5 class=\"modal-title\" id=\"" + neuronId + "Label\">Neuron " + (n + 1)
-                            + " in Layer " + (l + 1) + "</h5>\n");
-                    writer.write(
-                            "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n");
-                    writer.write("<span aria-hidden=\"true\">&times;</span>\n");
-                    writer.write("</button>\n");
-                    writer.write("</div>\n");
-
-                    writer.write("<div class=\"modal-body\">\n");
-                    writer.write("<p><strong>Weights:</strong></p>\n");
-                    writer.write("<ul>\n");
-
-                    for (int w = 0; w < layer.inputSize; w++) {
-                        writer.write("<li>Weight[" + w + "]: " + layer.weights[n][w] + "</li>\n");
-                    }
-
-                    writer.write("</ul>\n");
-                    writer.write("<p><strong>Bias:</strong> " + layer.bias[n] + "</p>\n");
-                    writer.write("</div>\n");
-
-                    writer.write("<div class=\"modal-footer\">\n");
-                    writer.write(
-                            "<button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n");
-                    writer.write("</div>\n");
-
-                    writer.write("</div>\n");
-                    writer.write("</div>\n");
-                    writer.write("</div>\n");
-                }
-
-                writer.write("</div>\n");
-            }
-
-            writer.write("</div>\n");
-            writer.write("</body>\n");
-            writer.write("</html>\n");
-
-            System.out.println("HTML file generated successfully: " + fileName);
-        } catch (IOException e) {
-            e.printStackTrace();
+        // Generate layers with neurons
+        int inputLayerSize = network.layers[0].neurons.length;
+        html.append(generateLayerHtml("Input layer", inputLayerSize, "input-neuron"));
+        for (int i = 0; i < network.layers.length - 1; i++) {
+            int hiddenLayerSize = network.layers[i].neurons.length;
+            html.append(generateLayerHtml("Hidden layer " + (i + 1), hiddenLayerSize, "hidden-neuron"));
         }
+        int outputLayerSize = network.layers[network.layers.length - 1].neurons.length;
+        html.append(generateLayerHtml("Output layer", outputLayerSize, "output-neuron"));
+
+        html.append("</div>\n")
+                .append(generateConnections())
+                .append("</div>\n")
+                .append("<script src=\"https://code.jquery.com/jquery-3.2.1.slim.min.js\"></script>\n")
+                .append("<script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js\"></script>\n")
+                .append("<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js\"></script>\n")
+                .append("</body>\n</html>");
+
+        return html.toString();
     }
 
-    public static void main(String[] args) {
-        int inputSize = 2; // XOR input size
-        int[] hiddenSizes = { 4, 4 }; // Two hidden layers with 4 neurons each
-        int outputSize = 1; // XOR output size
-        String[] activations_str = { "relu", "relu", "sigmoid" }; // Use sigmoid in output layer
-        double learningRate = 0.1;
+    // Helper function to generate the HTML for a layer
+    private String generateLayerHtml(String layerName, int numNeurons, String neuronClass) {
+        StringBuilder html = new StringBuilder();
+        html.append("<div class=\"layer\">\n<h4>").append(layerName).append("</h4>\n");
+        for (int i = 0; i < numNeurons; i++) {
+            html.append("<div class=\"neuron ").append(neuronClass).append("\">").append(i + 1).append("</div>\n");
+        }
+        html.append("</div>\n");
+        return html.toString();
+    }
 
-        NeuralNetwork nn = new NeuralNetwork(inputSize, hiddenSizes, outputSize, activations_str, learningRate);
-        // for (int i = 0; i < nn.layers.size(); i++) {
-        // System.out.println(Arrays.deepToString(nn.layers.get(i).weights));
-        // }
-        // XOR inputs and outputs
-        double[][] inputs = {
-                { 0, 0 },
-                { 0, 1 },
-                { 1, 0 },
-                { 1, 1 }
+    // Helper function to generate SVG lines between neurons to represent
+    // connections
+    private String generateConnections() {
+        StringBuilder svg = new StringBuilder();
+        svg.append("<svg width=\"1000\" height=\"600\">\n");
+
+        // Assuming fixed positions for neurons and layers for simplicity
+        int[][] neuronPositions = {
+                { 100, 100 }, { 100, 200 }, { 100, 300 }, { 100, 400 }, // Input neurons
+                { 300, 150 }, { 300, 250 }, { 300, 350 }, { 300, 450 }, // Hidden layer neurons
+                { 500, 250 } // Output neuron
         };
 
-        double[][] targets = {
-                { 0 },
-                { 1 },
-                { 1 },
-                { 0 }
-        };
-
-        int epochs = 10000; // Train for more epochs
-
-        // Training the model
-        for (int epoch = 0; epoch < epochs; epoch++) {
-            for (int i = 0; i < inputs.length; i++) {
-                nn.backpropagate(inputs[i], targets[i]);
+        // Connections from input to hidden layer
+        for (int i = 0; i < 4; i++) {
+            for (int j = 4; j < 8; j++) {
+                svg.append("<line x1=\"").append(neuronPositions[i][0])
+                        .append("\" y1=\"").append(neuronPositions[i][1])
+                        .append("\" x2=\"").append(neuronPositions[j][0])
+                        .append("\" y2=\"").append(neuronPositions[j][1])
+                        .append("\" stroke=\"black\" />\n");
             }
-            // if (epoch % 1000 == 0) {
-            // double loss = nn.calculateLoss(inputs, targets);
-            // System.out.println("Epoch " + epoch + " - Loss: " + loss);
-            // }
         }
 
-        // for (int i = 0; i < nn.layers.size(); i++) {
-        // System.out.println(Arrays.deepToString(nn.layers.get(i).weights));
-        // }
-
-        // Testing the model
-        for (double[] input : inputs) {
-            List<double[]> activations = nn.forward(input);
-            double[] output = activations.get(activations.size() - 1);
-            System.out.println("Input: " + Arrays.toString(input) + " -> Output: " + Arrays.toString(output));
+        // Connections from hidden layer to output neuron
+        for (int i = 4; i < 8; i++) {
+            svg.append("<line x1=\"").append(neuronPositions[i][0])
+                    .append("\" y1=\"").append(neuronPositions[i][1])
+                    .append("\" x2=\"").append(neuronPositions[8][0])
+                    .append("\" y2=\"").append(neuronPositions[8][1])
+                    .append("\" stroke=\"black\" />\n");
         }
 
-        // Generate the HTML file to visualize the neural network
-        NeuralNetworkVisualizer visualizer = new NeuralNetworkVisualizer(nn);
-        visualizer.generateHTML("neural_network_visualization.html");
+        svg.append("</svg>\n");
+        return svg.toString();
+    }
+
+    // Save the HTML to a file
+    public void saveHtmlToFile(String filename) throws IOException {
+        String htmlContent = generateHtml();
+        FileWriter writer = new FileWriter(filename);
+        writer.write(htmlContent);
+        writer.close();
     }
 }

@@ -1,5 +1,5 @@
 public class NeuralNetwork {
-    private Layer[] layers;
+    public Layer[] layers;
 
     public NeuralNetwork(int... layerSizes) {
         layers = new Layer[layerSizes.length - 1];
