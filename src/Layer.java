@@ -10,23 +10,23 @@ class Layer {
     public Layer(int inputSize, int outputSize, String activation) {
         this.inputSize = inputSize;
         this.outputSize = outputSize;
-        this.weights = new double[outputSize][inputSize]; // might need to be reversed
+        this.weights = new double[outputSize][inputSize]; // weights matrix: outputSize x inputSize
         this.bias = new double[outputSize];
         this.activation = activation.toLowerCase(); // Convert to lowercase to handle case-insensitivity
         initializeWeights();
     }
 
-    // Initialize weights randomly
+    // Initialize weights randomly using Gaussian distribution
     private void initializeWeights() {
         Random random = new Random();
         for (int i = 0; i < outputSize; i++) {
             for (int j = 0; j < inputSize; j++) {
-                weights[i][j] = random.nextGaussian() * 0.01;
+                weights[i][j] = random.nextGaussian() * 0.1; // Initialize weights with small random values
             }
         }
 
         for (int i = 0; i < outputSize; i++) {
-            bias[i] = random.nextGaussian() * 0.01;
+            bias[i] = random.nextGaussian() * 0.01; // Initialize biases with small random values
         }
     }
 
@@ -50,7 +50,7 @@ class Layer {
         return x > 0 ? 1 : 0;
     }
 
-    // Choose the activation function dynamically
+    // Dynamic activation function based on the chosen activation type
     public double activate(double x) {
         switch (activation) {
             case "relu":
@@ -62,7 +62,7 @@ class Layer {
         }
     }
 
-    // Choose the activation derivative function dynamically
+    // Dynamic derivative of activation function based on the chosen activation type
     public double activateDerivative(double x) {
         switch (activation) {
             case "relu":
@@ -74,29 +74,31 @@ class Layer {
         }
     }
 
-    // Forward pass through this layer with dynamic activation
+    // Forward pass through this layer
     public double[] forward(double[] input) {
         double[] output = new double[outputSize];
 
         for (int i = 0; i < outputSize; i++) {
             double sum = 0.0;
             for (int j = 0; j < inputSize; j++) {
-                sum += input[j] * weights[i][j];
+                sum += input[j] * weights[i][j]; // Weighted sum
             }
-            sum += bias[i];
-            output[i] = activate(sum); // Use dynamic activation function
+            sum += bias[i]; // Add bias
+            output[i] = activate(sum); // Apply activation function
         }
 
         return output;
     }
 
-    // Backpropagation (if needed, dynamic derivative for each neuron)
-    public double[] backward(double[] dOutput) {
+    // Backward pass for this layer
+    public double[] backward(double[] dOutput, double[] prevActivation) {
         double[] dInput = new double[inputSize];
 
-        for (int i = 0; i < inputSize; i++) {
-            for (int j = 0; j < outputSize; j++) {
-                dInput[i] += dOutput[j] * weights[i][j] * activateDerivative(weights[i][j]);
+        // Update weights and bias and calculate gradient for previous layer
+        for (int i = 0; i < outputSize; i++) {
+            double delta = dOutput[i] * activateDerivative(prevActivation[i]); // Calculate delta
+            for (int j = 0; j < inputSize; j++) {
+                dInput[j] += weights[i][j] * delta; // Backpropagate error
             }
         }
 
